@@ -1,25 +1,29 @@
-//
-//  CharacterListView.swift
-//  RickAndMortyAlamofire
-//
-//  Created by GenericDevGeorgia on 5/28/25.
-//
+
 import SwiftUI
 
 struct ProductListView: View {
     @StateObject private var viewModel = ProductViewModel()
+    @State private var searchText = ""
     
     var body: some View {
-        VStack {
-            if let product = viewModel.product {
-                Text(product.productName)
-                Text("Price: \(product.productPrice)")
-            } else {
-                Text("Loading...")
+        NavigationStack {
+            VStack {
+            Text("Searching for product with ID: \(searchText)")
+                .navigationTitle("Search products")
+            
+                if let product = viewModel.product {
+                    Text(product.productName)
+                    Text("Price: \(product.productPrice)")
+                } else {
+                    Text("Loading...")
+                }
             }
         }
-        .onAppear {
-            viewModel.loadProduct()
+        .searchable(text: $searchText)
+        .onChange(of: searchText){
+            if let _ = Int(searchText), !searchText.isEmpty {
+                viewModel.loadProduct(id: searchText)
+            }
         }
     }
 }

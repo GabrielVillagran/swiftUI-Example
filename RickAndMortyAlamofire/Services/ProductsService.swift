@@ -1,9 +1,3 @@
-//
-//  AlamofireService.swift
-//  RickAndMortyAlamofire
-//
-//  Created by GenericDevGeorgia on 5/28/25.
-//
 import Foundation
 import Alamofire
 
@@ -21,14 +15,14 @@ class ProductsService {
 //        }
 //    }
     
-    func fetchProduct(completion: @escaping (ProductsInformation?) -> Void) {
-        let url = "http://localhost:8080/api/products/1"
+    func fetchProduct(id: String, completion: @escaping (ProductsInformation?) -> Void) {
+        let url = "http://localhost:8080/api/products/\(id)"
         
         AF.request(url).responseDecodable(of: ProductsInformation.self) { response in
             switch response.result {
             case .success(let product):
                 completion(product)
-            case .failure(let error):
+            case .failure(_):
                 completion(nil)
             }
         }

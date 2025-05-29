@@ -1,10 +1,3 @@
-//
-//  CharacterViewModel.swift
-//  RickAndMortyAlamofire
-//
-//  Created by GenericDevGeorgia on 5/28/25.
-//
-
 import Foundation
 
 class ProductViewModel: ObservableObject {
@@ -12,8 +5,8 @@ class ProductViewModel: ObservableObject {
     
     private let service = ProductsService()
     
-    func loadProduct() {
-        service.fetchProduct { [weak self] product in
+    func loadProduct(id: String) {
+        service.fetchProduct(id: id) { [weak self] product in
             DispatchQueue.main.async {
                 self?.product = product
             }
